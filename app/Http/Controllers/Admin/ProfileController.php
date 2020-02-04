@@ -40,24 +40,29 @@ class ProfileController extends Controller
         if ($cond_name != '') {
             //検索されたら検索結果を取得する
             $posts = Profile::where('name', $cond_name)->get();
+            $flag = 1;
         } else {
             //それ以外はすべてニュースを取得する
-            $posts = Profile::all();
+            //$posts = Profile::all();
+            $posts = Profile::paginate(5);
+            $flag = 0;
         }
-        return view('admin.profile.index', ['posts' => $posts, 'cond_name' => $cond_name]);
+        return view('admin.profile.index', ['posts' => $posts, 'cond_name' => $cond_name, 'flag' => $flag]);
     }
 
     public function edit(Request $request)
     {
         // Profile Modelからデータを取得する
         $profile = Profile::find($request->id);
-        //dump($profiles);
+        //dd($profile);
         if (empty($profile)) {
         abort(404);    
         }
         
         //ページネーション
-        $pg = Profile_history::paginate(4);
+        //$pg = Profile_history::all();
+        $pg = Profile_history::paginate(5);
+        //dd($pg);
         //ページネーション'pg' => $pgの部分を追加
         return view('admin.profile.edit', ['profile_form' => $profile,'pg' => $pg]);
         
@@ -70,7 +75,6 @@ class ProfileController extends Controller
         $this->validate($request, Profile::$rules);
         // News Modelからデータを取得する
         $profile = Profile::find($request->id);
-        //$aaa = 5;
         // 送信されてきたフォームデータを格納する
         $profile_form = $request->all();
         // dd($profile_form);
@@ -78,7 +82,6 @@ class ProfileController extends Controller
         
         // dump($profile_form);
         // dump($profile);
-       
         //前回から変更があった場合にのみ編集履歴に保存する
         
         $profile_history = new Profile_history;
@@ -96,5 +99,5 @@ class ProfileController extends Controller
         // 削除する
         $profile->delete();
         return redirect('admin/profile/');
-        }
+    }
 }

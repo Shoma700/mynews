@@ -72,6 +72,7 @@ class NewsController extends Controller
         $this->validate($request, News::$rules);
         // News Modelからデータを取得する
         // dump($request);
+        //テーブルの1レコード
         $news = News::find($request->id);
         // dump($news);
         // 送信されてきたフォームデータを格納する

@@ -15,7 +15,7 @@ Route::get('/aaa', function () {
     echo DNS1D::getBarcodeHTML("1300013501754","EAN13");
     echo "_";
     echo DNS2D::getBarcodeHTML("123456789012","QRCODE");
-    return view('welcome');
+    //return view('welcome');
     
 });
 
@@ -23,8 +23,15 @@ Route::get('/aaa', function () {
 //     echo DNS1D::getBarcodeHTML("9999999999999","EAN13");
 // });
 
+//
+
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
+
+Route::get('/bbb', function() {
+    return view('admin.news.create');
+});
+
 
 //news
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
@@ -49,5 +56,86 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
 //news_front
 Route::get('/', 'NewsController@index');
 
-//prifiles_front
+//profiles_front
 Route::get('profile', 'ProfileController@index');
+
+
+
+
+
+
+
+//実験
+//ヒアドキュメントを使ってHTMLを表示
+$html = <<<EOF
+<html>
+<head>
+<title>Hello</title>
+<style>
+body { font-size:16pt; color:#999; }
+h1 { font-size:100pt; text-align:right; color:#eee;
+    margin:-40px opx -50px 0px; }
+</style>
+</head>
+<body>
+    <h1>Hello</h1>
+    <p>This is sample page</p>
+    <p>これは、サンプルで作ったページです</p>
+</body>
+</html>
+EOF;
+
+Route::get('/ddd', function () use ($html){
+    return $html;
+});
+
+//ルートパラメータの利用（必須パラメーター･･･指定しないとエラー）
+Route::get('/eee/{id}/{pass}', function ($id,$pass) {
+$html = <<<EOF
+<html>
+<head>
+<title>Hello</title>
+<style>
+body { font-size:16pt; color:#999; }
+h1 { font-size:100pt; text-align:right; color:#eee;
+    margin:-40px opx -50px 0px; }
+</style>
+</head>
+<body>
+    <h1>Hello</h1>
+    <p>受け取ったidは:{$id}</p>
+    <p>受け取ったpassは:{$pass}</p>
+    <p>これは、サンプルで作ったページです</p>
+</body>
+</html>
+EOF;
+
+return $html;
+});
+
+//任意パラメータ－
+Route::get('/fff/{msg?}', function ($msg='no message.') {
+$html = <<<EOF
+<html>
+<head>
+<title>Hello</title>
+<style>
+body { font-size:16pt; color:#999; }
+h1 { font-size:100pt; text-align:right; color:#eee;
+    margin:-40px opx -50px 0px; }
+</style>
+</head>
+<body>
+    <h1>Hello</h1>
+    <p>{$msg}</p>
+    <p>これは、サンプルで作ったページです</p>
+</body>
+</html>
+EOF;
+
+return $html;
+});
+
+
+Route::get('hello', 'TestController@index');
+Route::get('hello/other', 'TestController@other');

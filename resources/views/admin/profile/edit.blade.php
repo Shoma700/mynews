@@ -75,6 +75,32 @@
                             </thead>
                         </table>
                         <h2></h2>
+
+                        <table class="text-center ms_table_g">
+                            <thead class="theaed-default">  {{-- class="list-group" --}}
+                                <tr>
+                                    <th class="ms_th_g">ID</th>
+                                    <th class="ms_th">更新時間</th>
+                                    <th class="ms_th">名前履歴</th>
+                                    <th class="ms_th">性別履歴</th>
+                                    <th class="ms_th">趣味履歴</th>
+                                    <th class="ms_th"> 自己紹介履歴</th>
+                                </tr>
+                                @if ($profile_form->profiles_histories != NULL)
+                                     @foreach ($profile_form->profiles_histories as $profile_history)
+                                        <tr> {{-- class="list-group" --}}
+                                            <td class="ms_td_g">{{ mb_substr($profile_history->profile_id,0,3) }}</td>
+                                            <td class="ms_td">{{ $profile_history->edited_at }}</td>
+                                            <td class="ms_td">{{ mb_substr($profile_history->edited_name,0,6) }}</td>
+                                            <td class="ms_td">{{ mb_substr($profile_history->edited_gender,0,2) }}</td>
+                                            <td class="ms_td">{{ mb_substr($profile_history->edited_hobby,0,5) }}...</td>
+                                            <td class="ms_td">{{ mb_substr($profile_history->edited_introduction,0,5) }}...</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </thead>
+                        </table>
+
                         <h2 class="aaaa">ページネーションの実験中</h2>
                         <table class="text-center ms_table_g">
                             <thead class="theaed-default">  {{-- class="list-group" --}}
@@ -102,7 +128,7 @@
                         </table>
                         <!--ページネーション追加-->
                         <div class="d-flex justify-content-center">
-                        {{ $pg->links() }}
+                        {{ $pg->links()}}
                         </div>
                         <!--ページネーション追加-->
                     </div>
