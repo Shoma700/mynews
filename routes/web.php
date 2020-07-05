@@ -51,6 +51,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {
     Route::get('profile/edit', 'Admin\ProfileController@edit'); //13章課題追加
     Route::post('profile/edit', 'Admin\ProfileController@update');
     Route::get('profile/delete', 'Admin\ProfileController@delete');
+    //Route::get('/apiview', 'Api\NewsController@apiview');
 });
 
 //news_front
@@ -60,12 +61,14 @@ Route::get('/', 'NewsController@index');
 Route::get('profile', 'ProfileController@index');
 
 
+Route::get('/apiview', 'Api\NewsController@apiview');
 
 
 
 
 
-//実験
+
+//ルーティングとコントローラー：PHPフレームワークLaravel入門第一般　掌田　津耶乃　著　株式会社秀和システム発行　P1~P55
 //ヒアドキュメントを使ってHTMLを表示
 $html = <<<EOF
 <html>
@@ -136,6 +139,23 @@ EOF;
 return $html;
 });
 
-
+Route::get('helloaaa/{id?}/{pass?}', 'TestController@indexaaa');
 Route::get('hello', 'TestController@index');
 Route::get('hello/other', 'TestController@other');
+Route::get('single', 'SingleActionTestController');
+Route::get('request_response', 'TestController@indexbbb');
+
+//ビュー：PHPフレームワークLaravel入門第一般　掌田　津耶乃　著　株式会社秀和システム発行　P58~106
+Route::get('phpTemplate', function(){
+   return view('test_index');
+});
+Route::get('phpTemplate2/{id?}', 'TestController@phpTemplate');
+Route::get('testBlade', 'TestController@bladeIndex');
+Route::post('testBlade', 'TestController@post');
+
+//javaScriptTest
+Route::get('jsTest', 'TestController@jsTest');
+
+//メール送信
+Route::get('sendMail', 'TestController@sendMail');
+

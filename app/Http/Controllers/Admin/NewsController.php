@@ -57,11 +57,10 @@ class NewsController extends Controller
     {
         // News Modelからデータを取得する
         $news = News::find($request->id);
-        //dd($news);
+        //dump($news);
         if (empty($news)) {
         abort(404);    
         }
-        
 
         return view('admin.news.edit', ['news_form' => $news]);
     }
@@ -71,13 +70,15 @@ class NewsController extends Controller
         // Validationをかける
         $this->validate($request, News::$rules);
         // News Modelからデータを取得する
-        // dump($request);
+         //dump($request);
         //テーブルの1レコード
         $news = News::find($request->id);
-        // dump($news);
+         //dump($news);
         // 送信されてきたフォームデータを格納する
         $news_form = $request->all();
-        // dump($news_form);
+         //dump($news_form);
+         dump($request);
+         dump($request->remove);
         if (isset($news_form['image'])) {
         $path = $request->file('image')->store('public/image');
         $news->image_path = basename($path);
